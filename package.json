@@ -1,0 +1,34 @@
+{
+  "name": "aylien_textapi",
+  "version": "0.1.0",
+  "author": "AYLIEN Inc.",
+  "contributors": [
+  {
+    "name": "Amir Mohammad Saeid",
+    "email": "amir@aylien.com"
+  }
+  ],
+  "engines": {
+    "node": ">=0.10"
+  },
+  "main": "./textapi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AYLIEN/aylien_textapi_nodejs.git"
+  },
+  "keywords": [
+    "client",
+    "client library"
+  ],
+  "private": true,
+  "devDependencies": {
+    "mocha": "2.0.x",
+    "jsdoc": "~3.3.0-alpha10",
+    "nock": "0.51.x"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --timeout 10000",
+    "generate-docs": "jsdoc -c jsdoc-conf.json ./README.md"
+  },
+  "license": "Apache-2.0"
+}
