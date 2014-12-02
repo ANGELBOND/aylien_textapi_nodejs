@@ -20,7 +20,6 @@
     "client",
     "client library"
   ],
-  "private": true,
   "devDependencies": {
     "mocha": "2.0.x",
     "jsdoc": "~3.3.0-alpha10",
