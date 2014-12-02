@@ -38,7 +38,6 @@ files.forEach(function(file) {
         input = test.input;
       }
       input = querystring.stringify(input);
-      //fakeTextAPI.post('/api/v1/' + endpoint, '*').reply(200, JSON.stringify(test.output));
       fakeTextAPI.post('/api/v1/' + endpoint, input).reply(200, JSON.stringify(test.output));
     });
   }
@@ -46,6 +45,9 @@ files.forEach(function(file) {
 
 var authErrorMessage = 'Authentication parameters missing';
 fakeTextAPI.post('/api/v1/sentiment', 'text=random').reply(403, authErrorMessage);
+fakeTextAPI.post('/api/v1/summarize', 'url=invalid').reply(400,
+    '{"error" : "requirement failed: if you are not providing an url, both text and title are required."}');
+
 
 describe('Text API', function() {
   files.forEach(function(file) {
@@ -88,6 +90,18 @@ describe('Text API', function() {
       textapi.sentiment('random', function(error, response) {
         assert.notEqual(error, null);
         assert.equal(error.message, authErrorMessage);
+        done();
+      });
+    });
+  });
+  describe('invalid url', function() {
+    it('should throw an exception', function(done) {
+      var textapi = new AYLIENTextAPI({
+        application_id: "random",
+        application_key: "random"
+      });
+      textapi.summarize({url: 'invalid'}, function(error, response) {
+        assert.notEqual(error, null);
         done();
       });
     });
