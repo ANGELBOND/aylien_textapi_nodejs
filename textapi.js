@@ -214,7 +214,11 @@ function AYLIENTextAPI(options) {
    */
   this.summarize = function(params, callback) {
     params = util.extend({endpoint: 'summarize'}, this.normalizeParams(params));
-    createAPIRequest(params, 'url', callback);
+    if (!params.url && (!params.text || !params.title)) {
+      callback(new Error('You must either provide url, or pair of text and title'));
+    } else {
+      createAPIRequest(params, [], callback);
+    }
   };
 
   /**
