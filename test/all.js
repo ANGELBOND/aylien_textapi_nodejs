@@ -47,7 +47,11 @@ var authErrorMessage = 'Authentication parameters missing';
 fakeTextAPI.post('/api/v1/sentiment', 'text=random').reply(403, authErrorMessage);
 fakeTextAPI.post('/api/v1/summarize', 'url=invalid').reply(400,
     '{"error" : "requirement failed: if you are not providing an url, both text and title are required."}');
-
+fakeTextAPI.post('/api/v1/extract', 'url=http%3A%2F%2Faylien.com%2F').reply(200, '{}', {
+  'X-RateLimit-Limit': '1000',
+  'X-RateLimit-Remaining': '938',
+  'X-RateLimit-Reset': '1423094400'
+});
 
 describe('Text API', function() {
   files.forEach(function(file) {
@@ -90,6 +94,19 @@ describe('Text API', function() {
       textapi.sentiment('random', function(error, response) {
         assert.notEqual(error, null);
         assert.equal(error.message, authErrorMessage);
+        done();
+      });
+    });
+    it('should return RateLimit headers for authenticated users', function(done) {
+        var textapi = new AYLIENTextAPI({
+          application_id: "random",
+          application_key: "random"
+      });
+      textapi.extract('http://aylien.com/', function(error, response, rateLimits) {
+        assert.equal(error, null);
+        assert.equal(rateLimits.limit,      1000);
+        assert.equal(rateLimits.reset,      1423094400);
+        assert.equal(rateLimits.remaining,  938);
         done();
       });
     });
