@@ -83,13 +83,15 @@ function AYLIENTextAPI(options) {
    *
    * @param     {object}    params - Parameters for request
    * @param     {string}    params.url  - URL
+   * @param     {string}    params.html - Raw HTML to extract from
    * @param     {boolean=}  [params.best_image=false] - Whether to extract the
    *    best image of the article
    * @param     {callback}  callback - The callback that handles the response
    */
   this.extract = function(params, callback) {
     params = util.extend({endpoint: 'extract'}, this.normalizeParams(params));
-    createAPIRequest(params, 'url', callback);
+    if (params.text && !params.html) { params.html = params.text; delete(params.text); }
+    createAPIRequest(params, [['url', 'html']], callback);
   };
 
 
