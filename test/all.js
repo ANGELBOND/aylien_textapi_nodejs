@@ -24,7 +24,7 @@ var AYLIENTextAPI = require('../textapi'),
     fs = require('fs');
 
 // Override http requests
-var fakeTextAPI = nock('https://api.aylien.com/');
+var fakeHttpsTextAPI = nock('https://api.aylien.com/');
 var files = fs.readdirSync('test/fixtures');
 files.forEach(function(file) {
   if (file.match('.json$')) {
@@ -38,16 +38,19 @@ files.forEach(function(file) {
         input = test.input;
       }
       input = querystring.stringify(input);
-      fakeTextAPI.post('/api/v1/' + endpoint, input).reply(200, JSON.stringify(test.output));
+      fakeHttpsTextAPI.post('/api/v1/' + endpoint, input).reply(200, JSON.stringify(test.output));
     });
   }
 });
 
+var fakeHttpTextAPI = nock('http://api.aylien.com');
+fakeHttpTextAPI.post('/api/v1/microformats', 'url=http%3A%2F%2Faylien.com%2F').reply(200, JSON.stringify({hCards: []}));
+
 var authErrorMessage = 'Authentication parameters missing';
-fakeTextAPI.post('/api/v1/sentiment', 'text=random').reply(403, authErrorMessage);
-fakeTextAPI.post('/api/v1/summarize', 'url=invalid').reply(400,
+fakeHttpsTextAPI.post('/api/v1/sentiment', 'text=random').reply(403, authErrorMessage);
+fakeHttpsTextAPI.post('/api/v1/summarize', 'url=invalid').reply(400,
     '{"error" : "requirement failed: if you are not providing an url, both text and title are required."}');
-fakeTextAPI.post('/api/v1/extract', 'url=http%3A%2F%2Faylien.com%2F').reply(200, '{}', {
+fakeHttpsTextAPI.post('/api/v1/extract', 'url=http%3A%2F%2Faylien.com%2F').reply(200, '{}', {
   'X-RateLimit-Limit': '1000',
   'X-RateLimit-Remaining': '938',
   'X-RateLimit-Reset': '1423094400'
@@ -119,6 +122,19 @@ describe('Text API', function() {
       });
       textapi.summarize({url: 'invalid'}, function(error, response) {
         assert.notEqual(error, null);
+        done();
+      });
+    });
+  });
+  describe('disabling https', function() {
+    it('should use http', function(done) {
+      var textapi = new AYLIENTextAPI({
+        application_id: "random",
+        application_key: "random",
+        https: false
+      });
+      textapi.microformats({url: 'http://aylien.com/'}, function(error, response) {
+        assert.equal(0, response.hCards.length);
         done();
       });
     });
