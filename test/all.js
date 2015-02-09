@@ -23,12 +23,17 @@ var AYLIENTextAPI = require('../textapi'),
     path = require('path'),
     fs = require('fs');
 
+var endpointsMap = {
+  'unsupervisedClassify': 'classify/unsupervised'
+};
+
 // Override http requests
 var fakeHttpsTextAPI = nock('https://api.aylien.com/');
 var files = fs.readdirSync('test/fixtures');
 files.forEach(function(file) {
   if (file.match('.json$')) {
     var endpoint = file.replace('.json', '');
+    var endpointPath = endpointsMap[endpoint] || endpoint;
     var content = JSON.parse(fs.readFileSync('test/fixtures/' + file, 'utf8'));
     content.tests.forEach(function(test) {
       var input = {};
@@ -38,7 +43,7 @@ files.forEach(function(file) {
         input = test.input;
       }
       input = querystring.stringify(input);
-      fakeHttpsTextAPI.post('/api/v1/' + endpoint, input).reply(200, JSON.stringify(test.output));
+      fakeHttpsTextAPI.post('/api/v1/' + endpointPath, input).reply(200, JSON.stringify(test.output));
     });
   }
 });

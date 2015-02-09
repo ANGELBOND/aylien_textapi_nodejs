@@ -135,6 +135,28 @@ function AYLIENTextAPI(options) {
   };
 
   /**
+   * textapi.unsupervisedClassify
+   *
+   * @desc  Picks the most semantically relevant class label or tag for a
+   *    piece of text.
+   *
+   * @memberof! aylien_textapi(v1)
+   * @instance
+   *
+   * @param     {object}        params - Parameters for request
+   * @param     {string}        params.text - Text
+   * @param     {string}        params.url - URL
+   * @param     {array}         params.class - List of classes to classify into
+   * @param     {integer=}      [params.number_of_concepts=250] - Number of
+   *    concepts to use to measure the semantic similarity of two words.
+   * @param     {callback}      callback - The callback that handles the response
+   */
+  this.unsupervisedClassify = function(params, callback) {
+    params = util.extend({endpoint: 'classify/unsupervised'}, this.normalizeParams(params));
+    createAPIRequest(params, [['text', 'url'], 'class'], callback);
+  };
+
+  /**
    * textapi.concepts
    *
    * @desc  Extracts named entities mentioned in a document, disambiguates and
