@@ -239,6 +239,23 @@ function AYLIENTextAPI(options) {
     if (params.text && !params.phrase) { params.phrase = params.text; delete(params.text); }
     createAPIRequest(params, 'phrase', callback);
   };
+
+  /**
+   * textapi.microformats
+   *
+   * @desc  Extracts microformats from a URL
+   *
+   * @memberof! aylien_textapi(v1)
+   * @instance
+   *
+   * @param     {object}    params - Parameters for request
+   * @param     {string}    params.url - URL to extract microformats from
+   * @param     {callback}  callback - The callback that handles the response
+   */
+  this.microformats = function(params, callback) {
+    params = util.extend({endpoint: 'microformats'}, this.normalizeParams(params));
+    createAPIRequest(params, 'url', callback);
+  };
 }
 
 /**
