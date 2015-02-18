@@ -1,7 +1,7 @@
 {
   "name": "aylien_textapi",
   "description": "AYLIEN Text API Client Library for Node.js",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "AYLIEN Inc.",
   "contributors": [
   {

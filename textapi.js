@@ -280,6 +280,23 @@ function AYLIENTextAPI(options) {
     params = util.extend({endpoint: 'microformats'}, this.normalizeParams(params));
     createAPIRequest(params, 'url', callback);
   };
+
+  /**
+   * textapi.imageTags
+   *
+   * @desc  Assigns relevant tags to an image
+   *
+   * @memberof! aylien_textapi(v1)
+   * @instance
+   *
+   * @param     {object}    params - Parameters for request
+   * @param     {string}    params.url - Image URL to be tagged
+   * @param     {callback}  callback - The callback that handles the response
+   */
+  this.imageTags = function(params, callback) {
+    params = util.extend({endpoint: 'image-tags'}, this.normalizeParams(params));
+    createAPIRequest(params, 'url', callback);
+  };
 }
 
 /**
