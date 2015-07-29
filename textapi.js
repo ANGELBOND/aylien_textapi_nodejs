@@ -68,7 +68,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.sentiment = function(params, callback) {
-    params = util.extend({endpoint: 'sentiment'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'sentiment'}, this.normalizeParams(params));
     createAPIRequest(params, [['text', 'url']], callback);
   };
 
@@ -89,11 +89,10 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.extract = function(params, callback) {
-    params = util.extend({endpoint: 'extract'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'extract'}, this.normalizeParams(params));
     if (params.text && !params.html) { params.html = params.text; delete(params.text); }
     createAPIRequest(params, [['url', 'html']], callback);
   };
-
 
   /**
    * textapi.language
@@ -110,7 +109,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.language = function(params, callback) {
-    params = util.extend({endpoint: 'language'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'language'}, this.normalizeParams(params));
     createAPIRequest(params, [['text', 'url']], callback);
   };
 
@@ -130,7 +129,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}      callback - The callback that handles the response
    */
   this.classify = function(params, callback) {
-    params = util.extend({endpoint: 'classify'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'classify'}, this.normalizeParams(params));
     createAPIRequest(params, [['text', 'url']], callback);
   };
 
@@ -152,8 +151,27 @@ function AYLIENTextAPI(options) {
    * @param     {callback}      callback - The callback that handles the response
    */
   this.unsupervisedClassify = function(params, callback) {
-    params = util.extend({endpoint: 'classify/unsupervised'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'classify/unsupervised'}, this.normalizeParams(params));
     createAPIRequest(params, [['text', 'url'], 'class'], callback);
+  };
+
+  /**
+   * textapi.combined
+   *
+   * @desc  Runs multiple analysis operations in one API call.
+   *
+   * @memberof! aylien_textapi(v1)
+   * @instance
+   *
+   * @param     {object}    params - Parameters for request
+   * @param     {string}    params.text - Text
+   * @param     {string}    params.url - URL
+   * @param     {array}     params.endpoint - List of endpoints to call
+   * @param     {callback}  callback - The callback that handles the response
+   */
+  this.combined = function(params, callback) {
+    params = util.extend({endpointPath: 'combined'}, this.normalizeParams(params));
+    createAPIRequest(params, [['text', 'url'], 'endpoint'], callback);
   };
 
   /**
@@ -173,7 +191,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.concepts = function(params, callback) {
-    params = util.extend({endpoint: 'concepts'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'concepts'}, this.normalizeParams(params));
     createAPIRequest(params, [['text', 'url']], callback);
   };
 
@@ -193,7 +211,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.entities = function(params, callback) {
-    params = util.extend({endpoint: 'entities'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'entities'}, this.normalizeParams(params));
     createAPIRequest(params, [['text', 'url']], callback);
   };
 
@@ -212,7 +230,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.hashtags = function(params, callback) {
-    params = util.extend({endpoint: 'hashtags'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'hashtags'}, this.normalizeParams(params));
     createAPIRequest(params, [['text', 'url']], callback);
   };
 
@@ -237,7 +255,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.summarize = function(params, callback) {
-    params = util.extend({endpoint: 'summarize'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'summarize'}, this.normalizeParams(params));
     if (!params.url && (!params.text || !params.title)) {
       callback(new Error('You must either provide url, or pair of text and title'));
     } else {
@@ -259,7 +277,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.related = function(params, callback) {
-    params = util.extend({endpoint: 'related'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'related'}, this.normalizeParams(params));
     if (params.text && !params.phrase) { params.phrase = params.text; delete(params.text); }
     createAPIRequest(params, 'phrase', callback);
   };
@@ -277,7 +295,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.microformats = function(params, callback) {
-    params = util.extend({endpoint: 'microformats'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'microformats'}, this.normalizeParams(params));
     createAPIRequest(params, 'url', callback);
   };
 
@@ -294,7 +312,7 @@ function AYLIENTextAPI(options) {
    * @param     {callback}  callback - The callback that handles the response
    */
   this.imageTags = function(params, callback) {
-    params = util.extend({endpoint: 'image-tags'}, this.normalizeParams(params));
+    params = util.extend({endpointPath: 'image-tags'}, this.normalizeParams(params));
     createAPIRequest(params, 'url', callback);
   };
 }
