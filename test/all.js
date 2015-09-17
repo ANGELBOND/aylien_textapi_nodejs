@@ -62,6 +62,12 @@ fakeHttpsTextAPI.post('/api/v1/extract', 'url=http%3A%2F%2Faylien.com%2F').reply
   'X-RateLimit-Reset': '1423094400'
 });
 
+JSON.parse(fs.readFileSync('test/fixtures/classifyByTaxonomy.json'))['tests'].forEach(function(e) {
+  fakeHttpsTextAPI.post('/api/v1/classify/' + e.input.taxonomy, querystring.stringify({'text': e.input.text})).reply(200,
+    JSON.stringify(e.output)
+  );
+});
+
 describe('Text API', function() {
   files.forEach(function(file) {
     if (file.match('.json$')) {

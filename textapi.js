@@ -134,6 +134,32 @@ function AYLIENTextAPI(options) {
   };
 
   /**
+   * textapi.classifyByTaxonomy
+   *
+   * @desc  Classifies a body of text according to the specified taxonomy.
+   *
+   * @memberof! aylien_textapi(v1)
+   * @instance
+   *
+   * @param     {object}    params - Parameters for request
+   * @param     {string}    params.text - Text
+   * @param     {string}    params.url - URL
+   * @param     {string}    params.taxonomy - Taxonomy to classify according to
+   * @param     {string=}   [params.language=en] - Language of text
+   * @param     {callback}  callback - The callback that handles the response
+   */
+  this.classifyByTaxonomy = function(params, callback) {
+    if (!params.taxonomy) {
+      callback(new Error('You must specify a taxonomy'));
+    } else {
+      var taxonomy = params.taxonomy;
+      delete params.taxonomy;
+      params = util.extend({endpointPath: 'classify/' + taxonomy}, this.normalizeParams(params));
+      createAPIRequest(params, [['text', 'url']], callback);
+    }
+  };
+
+  /**
    * textapi.unsupervisedClassify
    *
    * @desc  Picks the most semantically relevant class label or tag for a
