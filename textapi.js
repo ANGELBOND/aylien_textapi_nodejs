@@ -73,6 +73,33 @@ function AYLIENTextAPI(options) {
   };
 
   /**
+   * textapi.aspectBasedSentiment
+   *
+   * @desc  Given a review for a product or service, analyzes the sentiment of
+   *    the review towards each of the aspects of the product or review that
+   *    are mentioned in it.
+   *
+   * @memberof! aylien_textapi(v1)
+   * @instance
+   *
+   * @param     {object}    params - Parameters for request
+   * @param     {string}    params.text - Text
+   * @param     {string}    params.url - URL
+   * @param     {string}    params.domain - Domain review belongs to.
+   * @param     {callback}  callback - The callback that handles the response
+   */
+  this.aspectBasedSentiment = function(params, callback) {
+    if (!params.domain) {
+      callback(new Error('You must specify a domain'));
+    } else {
+      var domain = params.domain;
+      delete params.domain;
+      params = util.extend({endpointPath: 'absa/' + domain}, this.normalizeParams(params));
+      createAPIRequest(params, [['text', 'url']], callback);
+    }
+  };
+
+  /**
    * textapi.extract
    *
    * @desc  Extracts the main body of article, including embedded media such

@@ -68,6 +68,12 @@ JSON.parse(fs.readFileSync('test/fixtures/classifyByTaxonomy.json'))['tests'].fo
   );
 });
 
+JSON.parse(fs.readFileSync('test/fixtures/aspectBasedSentiment.json'))['tests'].forEach(function(e) {
+  fakeHttpsTextAPI.post('/api/v1/absa/' + e.input.domain, querystring.stringify({'text': e.input.text})).reply(200,
+    JSON.stringify(e.output)
+  );
+});
+
 describe('Text API', function() {
   files.forEach(function(file) {
     if (file.match('.json$')) {
