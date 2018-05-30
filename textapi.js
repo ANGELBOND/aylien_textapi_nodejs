@@ -73,6 +73,25 @@ function AYLIENTextAPI(options) {
   };
 
   /**
+   * textapi.entityLevelSentiment
+   *
+   * @desc Returns the sentiment towards entities on given text.
+   *
+   * @memberof! aylien_textapi(v1)
+   * @instance
+   *
+   * @param     {object}    params - Parameters for request
+   * @param     {string}    params.text - Text to analyze
+   * @param     {string}    params.url - URL to analyze
+   * @param     {callback}  callback - The callback that handles the response
+   */
+
+  this.entityLevelSentiment = function(params, callback) {
+      params = util.extend({endpointPath: 'elsa'}, this.normalizeParams(params));
+      createAPIRequest(params, [['text', 'url']], callback);
+  };
+
+  /**
    * textapi.aspectBasedSentiment
    *
    * @desc  Given a review for a product or service, analyzes the sentiment of
