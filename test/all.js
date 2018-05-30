@@ -25,7 +25,8 @@ var AYLIENTextAPI = require('../textapi'),
 
 var endpointsMap = {
   'imageTags':              'image-tags',
-  'unsupervisedClassify':   'classify/unsupervised'
+  'unsupervisedClassify':   'classify/unsupervised',
+  'entityLevelSentiment':   'elsa'
 };
 
 // Override http requests
