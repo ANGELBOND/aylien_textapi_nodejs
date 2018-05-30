@@ -25,7 +25,6 @@ var AYLIENTextAPI = require('../textapi'),
 
 var endpointsMap = {
   'imageTags':              'image-tags',
-  'unsupervisedClassify':   'classify/unsupervised',
   'entityLevelSentiment':   'elsa'
 };
 
@@ -51,7 +50,7 @@ files.forEach(function(file) {
 });
 
 var fakeHttpTextAPI = nock('http://api.aylien.com');
-fakeHttpTextAPI.post('/api/v1/microformats', 'url=http%3A%2F%2Faylien.com%2F').reply(200, JSON.stringify({hCards: []}));
+fakeHttpTextAPI.post('/api/v1/sentiment', 'url=http%3A%2F%2Faylien.com%2F').reply(200, JSON.stringify({hCards: []}));
 
 var authErrorMessage = 'Authentication parameters missing';
 fakeHttpsTextAPI.post('/api/v1/sentiment', 'text=random').reply(403, authErrorMessage);
@@ -152,7 +151,7 @@ describe('Text API', function() {
         application_key: "random",
         https: false
       });
-      textapi.microformats({url: 'http://aylien.com/'}, function(error, response) {
+      textapi.sentiment({url: 'http://aylien.com/'}, function(error, response) {
         assert.equal(0, response.hCards.length);
         done();
       });

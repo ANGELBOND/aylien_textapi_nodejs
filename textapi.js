@@ -206,28 +206,6 @@ function AYLIENTextAPI(options) {
   };
 
   /**
-   * textapi.unsupervisedClassify
-   *
-   * @desc  Picks the most semantically relevant class label or tag for a
-   *    piece of text.
-   *
-   * @memberof! aylien_textapi(v1)
-   * @instance
-   *
-   * @param     {object}        params - Parameters for request
-   * @param     {string}        params.text - Text
-   * @param     {string}        params.url - URL
-   * @param     {array}         params.class - List of classes to classify into
-   * @param     {integer=}      [params.number_of_concepts=250] - Number of
-   *    concepts to use to measure the semantic similarity of two words.
-   * @param     {callback}      callback - The callback that handles the response
-   */
-  this.unsupervisedClassify = function(params, callback) {
-    params = util.extend({endpointPath: 'classify/unsupervised'}, this.normalizeParams(params));
-    createAPIRequest(params, [['text', 'url'], 'class'], callback);
-  };
-
-  /**
    * textapi.combined
    *
    * @desc  Runs multiple analysis operations in one API call.
@@ -335,43 +313,7 @@ function AYLIENTextAPI(options) {
     }
   };
 
-  /**
-   * textapi.related
-   *
-   * @desc  Returns phrases related to the provided unigram or bigram
-   *
-   * @memberof! aylien_textapi(v1)
-   * @instance
-   *
-   * @param     {object}    params - Parameters for request
-   * @param     {string}    params.phrase - Phrase
-   * @param     {integer=}  [params.count=20] - Number of entries in response. Max 100
-   * @param     {callback}  callback - The callback that handles the response
-   */
-  this.related = function(params, callback) {
-    params = util.extend({endpointPath: 'related'}, this.normalizeParams(params));
-    if (params.text && !params.phrase) { params.phrase = params.text; delete(params.text); }
-    createAPIRequest(params, 'phrase', callback);
-  };
-
-  /**
-   * textapi.microformats
-   *
-   * @desc  Extracts microformats from a URL
-   *
-   * @memberof! aylien_textapi(v1)
-   * @instance
-   *
-   * @param     {object}    params - Parameters for request
-   * @param     {string}    params.url - URL to extract microformats from
-   * @param     {callback}  callback - The callback that handles the response
-   */
-  this.microformats = function(params, callback) {
-    params = util.extend({endpointPath: 'microformats'}, this.normalizeParams(params));
-    createAPIRequest(params, 'url', callback);
-  };
-
-  /**
+ /**
    * textapi.imageTags
    *
    * @desc  Assigns relevant tags to an image
